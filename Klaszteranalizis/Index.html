@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Language" content="hu" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Klaszteranalízis - Soltész Tamara</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="menu" id="teteje">
+<div class ="container">
+<div class="row">
+    <div class="col-sm-3" ><button  id="menugomb" onclick="tt()">Klaszteranalízis</button></div>
+    <div class="col-sm-3"><button  id="menugomb" onclick="gorgetes('#kka')">K-közép algoritmus</button></div>
+    <div class="col-sm-3"><button  id="menugomb" onclick="gorgetes('#kmeda')">K-medoid algoritmus</button></div>
+	<div class="col-sm-3"><button onclick="Menule()" class="dropbtn">Számolás</button> 
+	
+	<div id="szamolas" class="dropdown-content">
+	<div class="col-sm-12">
+    <button class="gomb" onclick="ugras('kkozep.html')">K-középpel</button>
+	</div>
+	<div class="col-sm-12">
+    <button class="gomb"onclick="ugras('kmed.html')">K-medoiddal</button>
+	</div>
+      </div></div>
+ </div>
+ </div>
+ <div class="jumbotron text-center">
+  <h1>Klaszteranalízis</h1>
+  <p><b>Javascriptel</b></p> 
+</div>
+</div>
+<div id="klaszterszoveg">
+<div class="szoveg">
+	<div class="container ">
+		<div class="row">
+			<div class="col-sm-12" ><br>
+			A klaszteranalízis egy olyan dimenziócsökkentő eljárás, amellyel adattömböket tudunk homogén csoportokba sorolni, 
+	klasszifikálni. Ezeket a csoportokat nevezzük klasztereknek. Az egyes klasztereken 
+	belüli adatok valamilyen dimenzió szerint hasonlítanak egymáshoz, és e dimenzió 
+	mentén különböznek a többi klaszter elemeitől.
+	A csoportok minél homogénebbek (azaz nagyobb az elemeik hasonlósága), és minél nagyobb közöttük a különbség, 
+	annál pontosabbnak mondható a klaszteranalízis maga.  A csoportosítás alapját különböző távolság- vagy hasonlóságmértékek 
+	képezik.<sup ><a href="https://hu.wikipedia.org/wiki/Klaszteranal%C3%ADzis">[1]</a></sup>
+			</div>
+			</div>
+			</div>
+			<div class="container ">
+			<div class="row">
+			<div class="col-sm-4" >
+				<h3>Módszerek típusai: </h3>
+				<ul>
+				<li>K-közép</li>
+				<li>K-medoid</li>
+				<li>DBSCAN</li>
+				<li>Hierarchikus</li>
+				<li>Fuzzy</li>
+				</ul>
+			</div>
+			<div class="col-sm-4" >
+			</div>
+			<div class="col-sm-4" >
+				<h3>Klaszterek típusai:</h3>
+				<ul>
+				<li>Jól elkülöníthető klaszterek</li>
+				<li>Prototípus-alapú klaszterek</li>
+				<li>Gráf-alapú klaszterek</li>
+				<li>Sűrűség-alapú klaszterek</li>
+				<li>Fogalmi klaszterek</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+	
+
+</div>
+
+	<div class="szoveg">
+	<div class="container ">
+		<div class="col-sm-2" >
+		<h3>Weboldal felépítése:</h3>
+Az oldal két féle klaszterezési módszert mutat be, K-közép és a K-medoid algoritmust.
+Az algoritmusok leírása ezen az oldalon található, a használatukhoz a menüpontok segítségével lehet elkalauzolni.
+		</div>
+		<div class="col-sm-8" >
+		<h3>Kirajzoltatás:</h3>
+A számolásokhoz, szükség van pontokra, melyeket vagy fileban lehet megadni, vagy a baloldalon lévő szövegdobozba való beillesztéssel, beírással. 
+Az adatok a következőképpen szerepeljenek megadáskor: 
+Egy-egy pont adatai új sorban kezdődjenek, a pontok koordinátái szóközzel legyenek elválasztva egymástól. <br/>
+Megjelenítési szempontból, most csak két koordinátával engedett a számolás, az eredeti leírás ezt nem korlátozza.<br/>
+A pontok megadása után még szükség van a középpontok számára, melyek változtatásával a megjelenítésben látható, hogy egy-egy klaszter más-más színnel van jelölve. A középpontok száma maximum 15 lehet.
+<br/>
+Az egész számolási és kirajzoltatási folyamat a "Számolás" feliratú gombbal lehet kezdeményezni, miután minden adat megadásra került, ha a pontok megadása nem megfelelő akkor a számolást követően ez kiderül és értesítést küld a felhasználónak.
+
+		</div>
+		<div class="col-sm-2" >
+		<h3>Eredmény leolvasása:</h3>
+Az oldal baloldalán a beállítások alatt, lehet látni a kapott SSE számot, illetve a középpontok koordinátáit, az ábrán jól elkülönülve lehet látni a pontok csoportosítását.
+<br/><br/><br/>
+		</div>
+		</div>
+		</div>
+		</div>
+<div class="menu">		
+<div class="row">
+    <div class="col-sm-12" ><button id="kka" onclick="gorgetes('#teteje')">K-Közép Algoritmus</a></div>
+</div>
+</div>
+<div class="szoveg">
+	<div class="container ">
+	<div class="col-sm-8" >
+	<h3>Ilyenkor az adatok csoportosítása a következő módszerrel történik:</h3>
+<br />
+
+A függvény bemenő paraméterei egy pontokból álló adatsor, illetve a keresendő 
+klaszterek száma, mely kötelezően egy egész szám (<strong>K</strong>).<br />
+<br />
+<ol>
+<li>Lépés: Véletlenszerűen generálunk <strong>K</strong> darab pontot - nem 
+szükséges, hogy benne legyenek az adathalmazban;</li>
+<li>Lépés: Az adathalmazban lévő pontokat csoportosítsuk a középpontokhoz, 
+aszerint melyikhez van a legközelebb;</li>
+<li>Lépés: Vesszük egy csoporthoz tartozó pontok átlagát, és ez lesz az új 
+csoport középpont</li>
+<li>Lépés: Ismételjük a 2. és 3. lépéseket, addig amíg az újonnan kapott 
+középpontok közel meg nem egyeznek az előttük kapott középpontokkal.</li> 
+Az ilyenkor kapott eredmény nem mindig lesz megfelelő, ezért bevezetünk egy SSE 
+számot. Ez a szám a klaszterekben lévő pontok klaszterközépponttól vett távolságok négyzetösszege (SSE=Sum Squared Error).<br/>
+
+<li>Lépés: Ismételjük az 1. lépéstől a 4. lépésig <strong>X</strong> alkalommal és az eredmény 
+legyen az, ahol ez az SSE szám a legkisebb.</li></ol> 
+<br/>
+</div>
+<div class="col-sm-4" >
+	<h3>A módszer hiányosságai:</h3>
+Sajnos ez az algoritmus nem tudja kiszűrni a kiugró adatokat, ezért ha szerepel az adatsorban ilyen pont,
+akkor az egyértelmű kalszterek sem ismeri fel megfelelően. Használata előtt valamilyen szűrést szoktak alkalmazni, a kiugró adatok meghatározására.
+	<br>
+	<br>
+	<div class="menu" style="height:25px; width:100%;"><a href="kkozep.html">Számolás ezzel</a></div>
+	</div>
+	<br>
+	<br>
+	
+	</div>
+	</div>
+	
+	
+	<div class="menu">		
+<div class="row">
+    <div class="col-sm-12" ><button id="kmeda" onclick="gorgetes('#teteje')">K-Medoid Algoritmus</button></div>
+</div>
+</div>
+<div class="szoveg">
+	<div class="container ">
+	<div class="col-sm-8" >
+<h3>Ilyenkor az adatok csoportosítása a következő módszerrel történik:</h3>
+<br />
+
+A függvény bemenő paraméterei egy pontokból álló adatsor, illetve a keresendő 
+klaszterek száma, mely kötelezően egy egész szám (<strong>K</strong>).<br />
+<br />
+<ol>
+<li>Lépés: Véletlenszerűen generálunk <strong>K</strong> darab pontot az 
+adathalmazból, ezek lesznek a középpontok elsőre.</li>
+<li>Lépés: Az adathalmazban lévő pontokat csoportosítsuk a középpontokhoz, 
+aszerint melyikhez van a legközelebb;</li>
+<li>Lépés: Vesszük egy csoporthoz tartozó pontok átlagát, és megkeressük azt a pontot az adathalmazban amely a legközelebb áll hozzá, ez a pont lesz az új középpont.</li>
+<li>Lépés: Ismételjük a 2. és 3. lépéseket, addig amíg az újonnan kapott 
+középpontok közel meg nem egyeznek az előttük kapott középpontokkal.</li> 
+Az ilyenkor kapott eredmény nem mindig lesz megfelelő, ezért bevezetünk egy SSE 
+számot. Ez a szám a klaszterekben lévő pontok klaszterközépponttól vett távolságok négyzetösszege (SSE=Sum Squared Error).<br/>
+
+<li>Lépés: Ismételjük az 1. lépéstől a 4. lépésig <strong>X</strong> alkalommal és az eredmény 
+legyen az, ahol ez az SSE szám a legkisebb.</li></ol> 
+
+<br/>
+</div>
+<div class="col-sm-4" >
+	<h3>A módszer hiányosságai:</h3>
+Az algoritmus szinte megegyezik a K-középpel, viszont ennél nem engedjük meg, 
+hogy olyan pont legyen a középpont, melyet az adathalmaz nem tartalmaz.<br />
+Sajnos a kiugró adat itt is elronthatja a végeredményt.<br/>
+<br />
+
+	<div class="menu" style="height:25px; width:100%;"><a href="kmed.html">Számolás ezzel</a></div>
+	<br>
+	<br>
+	
+	</div>
+	
+	</div>
+	</div>
+	
+<div class="vege">
+Készítette: Soltész Tamara (2022)
+</div>
+
+
+<script>
+ function gorgetes(aid){
+    var aTag = $(""+ aid +"");
+    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+}
+function tt(){
+	$("#klaszterszoveg").toggle();
+}
+
+
+   function ugras(oldal){
+    window.open(""+oldal+"","_self")
+}
+
+
+
+
+
+function Menule() {
+  document.getElementById("szamolas").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>		
+		
+	
+	
+
+
+</body>
+</html>

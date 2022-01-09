@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Language" content="hu" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Klaszteranalízis - Soltész Tamara</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+<div class="menu">
+<div class="container">
+<div class="row">
+    <div class="col-sm-4" ><button id="menugomb" onclick="ugras('Index.html')">Vissza</button></div>
+    <div class="col-sm-4" ><button id="menugomb" onclick="ugras('Kkozep.html')">K-közép algoritmus</button></div>
+    <div class="col-sm-4"><button id="menugomb"  style="color:white">K-medoid algoritmus</button></div>
+  </div>
+  </div>
+</div>
+
+<div class="container">
+<div class="row">
+<div class="col-sm-4" >
+<br>
+<div class="beallitasok">
+<br>
+<h2>K-Medoid Algoritmus</h2> <form method="post">
+			<input name="File1" type="file" id="inputfile" style="width: 85%; height: 30px; margin-left: 7%;" /></form>
+						<form method="post">
+	<textarea name="TextArea1" id="pontok" rows="30" style="width: 85%; margin-left: 7%;" cols="20"></textarea></form>
+	<h4>Középpontok száma:<form method="post">
+		<input id="kozeppontok" name="Text1"  type="text" style="width: 85%; height: 30px; color: #247184;" /></form></h4>
+		<br/><br/>		<form method="post">
+			<input name="szamolj" type="button" value="Számolás" class="gomb" onclick="Szamolasok(kozeppontok,pontok)" style="width: 85%; height:40px; margin-left: 7%; " /></form>
+<br/><br/>
+
+</div>
+</div>
+
+<div class="col-sm-8" >
+<br>
+<div class="szoveg" style="height:100%; width:100%">
+		
+		<canvas id="graph" width="800px" height="800px" style="border:1px solid #c3c3c3;">
+		<div class="alert alert-warning">
+		<strong>Probléma van!</strong> Sajnos a böngésző nem támogatja a canvas felületet.
+		</div>
+</canvas>
+<br/>
+	<div class="alert alert-success" id="siker">
+		<strong>Sikeres</strong> feladat megoldás!
+		</div>
+	<div class="alert alert-danger" id="hiba">
+		<strong>Hiba</strong> történt!
+		</div>	
+		<div class="alert alert-danger" id="hiba2">
+		<strong>Hiba!</strong> Az adatok felépítése nem megfelelő!
+		</div>
+<div class="alert alert-info" id="inform">
+  <strong>Figyelem!</strong> A kiválasztott file egy sorában, csak egy pont koordinátái szerepelhetnek.
+</div>		
+		</div>
+
+</div>
+</div>
+<div>
+<div class="row">
+<div class="col-sm-4" >
+<br>
+<div class="beallitasok">
+<br>
+<h4>SSE szám:<form method="post">
+		<input id="ssesz" name="Text2"  type="text" style="width: 85%; height: 30px; color: #247184;" /></form></h4>
+	<h4>Középpontok:
+	<form method="post">
+<textarea name="TextArea" id="kp2" rows="10" style="width: 85%;" style="font: #247184;" ></textarea></form></h4>
+<br>	
+</div>
+</div>
+
+<div class="col-sm-8" >
+
+
+
+</div>
+</div>
+</div>
+
+
+
+</div>
+<div class="vege2">
+Készítette: Soltész Tamara (2022)
+</div>
+<script>
+function ugras(oldal){
+    window.open(""+oldal+"","_self")
+}
+
+$( document ).ready(function() {
+    $("#siker").hide();
+	$("#hiba").hide();
+	$("#hiba2").hide();
+});
+
+
+
+
+
+        document.getElementById('inputfile')
+            .addEventListener('change', fileBe);
+            function fileBe() {
+              
+            var fr=new FileReader();
+            document.getElementById('pontok').textContent="";
+            fr.onload=function(){
+                document.getElementById('pontok')
+                        .value=fr.result;
+            }
+              
+            fr.readAsText(this.files[0]);
+                    }
+        document.getElementById("ssesz").disabled=true;
+        document.getElementById("kp2").disabled=true;
+        
+        var canvas = document.getElementById("graph");
+        var w=canvas.width;
+        var h=canvas.height;
+		var ctx = canvas.getContext("2d");
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillRect(0,0,w,h);
+		
+		var ctx2=canvas.getContext("2d");
+		ctx2.strokeStyle="#777777";
+		ctx2.lineWidth=0.5;
+		
+		for (i=0;i<w;i+=w/100){
+		ctx2.beginPath();
+			ctx2.moveTo(i,0);
+			ctx2.lineTo(i,h);
+			ctx2.stroke();
+			ctx2.beginPath();
+			ctx2.moveTo(0,i);
+			ctx2.lineTo(w,i);
+			ctx2.stroke();
+
+		}
+		ctx2.strokeStyle="#000000";
+		ctx2.lineWidth=2;
+		ctx2.beginPath();
+		ctx2.moveTo(0,h/2);
+		ctx2.lineTo(w,h/2)
+		ctx2.stroke();
+		ctx2.moveTo(w/2,0);
+		ctx2.lineTo(w/2,h);
+		ctx2.stroke();
+		function Szamolasok(kozeppontok,pontok){
+			if (pontok.value===""){
+				alert("Nem adta meg a pontokat!");
+			}
+			else if (kozeppontok.value==="" || isNaN(kozeppontok.value)){
+				alert("Nem adott meg a klaszterközéppontok számát!");		
+			}
+			else if (kozeppontok.value>15){
+				alert("A középpontok száma maximum 15 lehet!");			
+			}
+			else {
+				try{
+					var adatoks = [];
+					var pont=pontok.value.split("\n");
+					for(i=0; i<pont.length; i++) {
+						if(pont[i]!=""){
+    						adatoks[i] = pont[i].split(" ");
+    					}
+    					
+					}
+					var adatok = [];
+					for(i=0; i<adatoks.length; i++) {
+    					adatok[i] = [2];
+    					for (j=0;j<2;j++){
+    						adatok[i][j]=+adatoks[i][j];
+    					}
+    					
+					}
+
+					
+					
+				
+					var eredmeny=KMed(adatok,kozeppontok.value);
+					if (isNaN(eredmeny[2])){
+						$("#inform").hide();
+						$("#siker").hide();
+						$("#hiba").hide();
+						$("#hiba2").show();
+					}
+					else{
+						for(z=0;z<100;z++){
+							var eredmeny2=KMed(adatok,kozeppontok.value);
+							if (eredmeny2[2]<eredmeny[2]){
+								eredmeny=eredmeny2;
+							}
+						}
+						Rajzolas(adatok,eredmeny[1]);
+						var kp="";
+						for (i=0;i<eredmeny[0].length;i++){
+							kp+=((i+1)+": "+eredmeny[0][i]+"\n");
+						}
+						document.getElementById('ssesz')
+	                        .value=eredmeny[2];
+	                        
+	                    document.getElementById('kp2')
+	                        .textContent=kp;
+                        }
+                        
+           				
+									
+				}
+				catch(err){
+					$("#inform").hide();
+						$("#siker").hide();
+						$("#hiba").show();
+						$("#hiba2").hide();
+				}
+			}
+			
+		}
+		
+		function KMed(adatok, kp){
+					var elozocenterek=[];
+					var centerek=[];
+					var indexek=[];
+					var SSE=0;
+					K=+kp;
+					for (i=0;i<K;i++){
+						var rand=Math.floor(Math.random()*adatok.length);
+						centerek[i]=[2];
+						elozocenterek[i]=[2];
+						for (j=0;j<2;j++){
+							centerek[i][j] = adatok[rand][j];
+							
+						}
+					}
+					do{
+					
+						SSE=0;
+						
+						for (i=0;i<centerek.length;i++){
+							//console.log(centerek[0][0]);
+							for (j=0;j<centerek[i].length;j++){
+								elozocenterek[i][j]=centerek[i][j];
+							}
+						}
+						for (j=0;j<adatok.length;j++){
+							var minhossz=-1;
+							var minind=0;
+				
+							for (i=0;i<centerek.length;i++){
+								var hossz=0;
+								for (k=0;k<centerek[i].length;k++){
+									hossz+=(Math.pow(adatok[j][k]-centerek[i][k],2));
+								}
+								if ((minhossz ==-1) || (minhossz > Math.sqrt(hossz))){
+									minhossz=Math.sqrt(hossz);
+									minind=i;
+								}
+							}
+						
+							indexek[j]=minind;
+							SSE+=(Math.pow(minhossz,2));
+							
+						}
+						
+											
+						for (i=0;i<centerek.length;i++){
+							for (j=0;j<2;j++){
+								var atlag=0;
+								var db=0;
+								for (k=0;k<adatok.length;k++){
+									if (indexek[k]==i){
+										atlag+=adatok[k][j];
+										db++;
+									}
+								}
+								if (db!=0){
+									centerek[i][j]=(atlag/db);
+								
+								}
+							}
+						}
+						
+						for (i=0;i<centerek.length;i++){
+							var ujindex=0;
+							var minhossz=-1;
+							for (j=0;j<adatok.length;j++){
+								var hossz=0;
+								for (k=0;k<2;k++){
+									hossz+=Math.pow((adatok[j][k]-centerek[i][k]),2);
+								}
+								if (minhossz==-1 || minhossz>Math.sqrt(hossz)){
+									minhossz=Math.sqrt(hossz);
+									ujindex=j;
+								}
+							}
+							for (j=0;j<2;j++){
+								centerek[i][j]=adatok[ujindex][j];
+							}
+						}
+					
+					
+					}while(!Egyenloek(centerek,elozocenterek,0.0001));
+					
+					return [centerek,indexek,SSE];
+		}
+		function Egyenloek(centerek,elozocenterek, tolerancia){
+			for (i=0;i<centerek.length;i++){
+				for (j=0;j<centerek[i].length;j++){
+					if (Math.abs(centerek[i][j]-elozocenterek[i][j])>tolerancia){
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		
+		function Rajzolas(adatok,indexek){
+		
+			var minx=adatok[0][0];
+			var miny=adatok[0][1];
+			var maxx=adatok[0][0];
+			var maxy=adatok[0][1];
+
+			for (i=0;i<adatok.length;i++){
+				if (adatok[i][0]>maxx){
+					maxx=adatok[i][0];
+				}
+				else if (adatok[i][0]<minx){
+					minx=adatok[i][0];
+				}
+				
+				if (adatok[i][1]>maxy){
+					maxy=adatok[i][1];
+				}
+				else if (adatok[i][1]<miny){
+					miny=adatok[i][1];
+				}
+
+			}
+			var max=Math.max(Math.abs(minx),Math.abs(maxx),Math.abs(maxy),Math.abs(miny));
+		
+			
+			var canvas = document.getElementById("graph");
+	        var w=canvas.width;
+	        var h=canvas.height;
+			var ctx = canvas.getContext("2d");
+			
+			var leptek2=(Math.floor(max));
+			if (leptek2%2==0){
+				leptek2++;
+			}
+			var leptek=400/((leptek2*2));
+			
+
+			
+			
+			ctx.fillStyle = "#FFFFFF";
+			ctx.fillRect(0,0,w,h);
+			
+			var ctx2=canvas.getContext("2d");
+			ctx2.strokeStyle="#777777";
+			ctx2.lineWidth=0.5;
+			
+			for (i=0;i<w;i+=leptek){
+			ctx2.beginPath();
+				ctx2.moveTo(i,0);
+				ctx2.lineTo(i,h);
+				ctx2.stroke();
+				ctx2.beginPath();
+				ctx2.moveTo(0,i);
+				ctx2.lineTo(w,i);
+				ctx2.stroke();
+	
+			}
+			ctx2.strokeStyle="#000000";
+			ctx2.lineWidth=2;
+			ctx2.beginPath();
+			ctx2.moveTo(0,h/2);
+			ctx2.lineTo(w,h/2)
+			ctx2.stroke();
+			ctx2.moveTo(w/2,0);
+			ctx2.lineTo(w/2,h);
+			ctx2.stroke();
+
+			
+			
+			
+			var szinek=["#0000ff","#ff0000"," #33ff99","#9966cc","#ffff00","#660066","#ccff99","#ff9900","#9966ff","#999900","#66ffff","#6699ff","#660000","#00ccff","#ffcccc"];
+			var c = document.getElementById("graph");
+			var ctx = c.getContext("2d");
+			for (i=0;i<indexek.length;i++){
+				ctx.fillStyle = szinek[indexek[i]];
+				ctx.beginPath();
+				var x=400+(adatok[i][0]*leptek);
+				var y=400-(adatok[i][1]*leptek);
+				
+				ctx.arc(x,y,10,0,2*Math.PI);
+				ctx.fill();
+			}
+			$("#inform").hide();
+						$("#siker").show();
+						$("#hiba").hide();
+						$("#hiba2").hide();
+		}
+
+
+
+
+</script>
+
+</body>
+</html>

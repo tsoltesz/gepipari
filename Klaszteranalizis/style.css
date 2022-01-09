@@ -1,0 +1,229 @@
+﻿.menu{
+	background-color: #AFDDE9;
+	color: #247184;
+	font-size: 20px;
+	text-align: center;
+	font-family:"Courier New", Courier, monospace;
+}
+table.menut{
+	
+	margin-left: auto;
+	margin-right: auto;
+
+}
+.szoveg{
+	
+	background-color: #f9f9f9b0;
+	margin-left: auto;
+	margin-right: auto;
+	font-family:"Courier New", Courier, monospace;
+	color:#247184;
+	
+
+}
+
+#kkozep{
+	background-color: #AFDDE9;
+	color: #247184;
+	font-size: 20px;
+	text-align: center;
+	
+
+}
+#kmed{
+	background-color: #AFDDE9;
+	color: #247184;
+	font-size: 20px;
+	text-align: center;
+	font-family:"Courier New", Courier, monospace;
+
+}
+#klaszter{
+	background-color: #AFDDE9;
+	color: #247184;
+	font-size: 20px;
+	text-align: center;
+	font-family:"Courier New", Courier, monospace;
+}
+a{
+	
+	color: #247184;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Courier New", Courier, monospace;
+
+}
+.fejlec{
+	background-position: center;
+	background-image: url('fejlec.png');
+	width: 100%;
+	height: 150px;
+	background-color: #f9f9f9;
+	background-repeat: repeat-x;
+}
+body{
+	background-image: url('halohater.png');
+	background-repeat: repeat;
+	background-attachment: fixed;
+
+}
+
+.dropbtn {
+  background-color: #AFDDE9;
+  color: #247184;
+  padding: 16px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  font-family:"Courier New", Courier, monospace;
+}
+
+.dropbtn:focus {
+  background-color: #AFDDE9;
+}
+
+.dropbtn:hover {
+  background-color: #AFDDE9;
+}
+.szamolas {
+  position: relative;
+  display: inline-block;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 25%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  font-family:"Courier New", Courier, monospace;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-family:"Courier New", Courier, monospace;
+}
+
+
+.dropdown-content a:hover {background-color: #ddd}
+
+
+.show {display:block;}
+
+.beallitasok{
+	background-color:#247184A0;
+	margin-left: auto;
+	margin-right: auto;
+	font-family:"Courier New", Courier, monospace;
+
+}
+h2{
+	text-align:center;
+	color:#f9f9f9;
+	
+}
+h4{
+		text-align:center;
+	color:#f9f9f9;
+
+	
+}
+a1{
+	color: #f9f9f9;
+	font-style:normal;
+	text-decoration:none;
+
+	
+}
+#inputfile{
+	
+	color: #AFDDE9;
+	font-size: 13px;
+	text-align: center;
+	width:100%;
+	font-family:"Courier New", Courier, monospace;
+
+}
+
+.gomb{
+	font-family:"Courier New", Courier, monospace;
+	font-size:18px;
+	color:#247184;
+
+}
+
+.vege{
+	font-family: "Courier New", Courier, monospace;
+	font-size: 20px;
+	color: #247184;
+	background-color: #AFDDE999;
+	font-style: italic;
+	text-align:right;
+}
+
+.vege2{
+	font-family: "Courier New", Courier, monospace;
+	font-size: 20px;
+	color: #247184;
+	
+	font-style: italic;
+	text-align:right;
+}
+
+
+
+
+#menugomb{
+	background-color: #AFDDE9;
+	color: #247184;
+	padding: 16px;
+	font-size: 20px;
+	border: none;
+	cursor: pointer;
+	font-family:"Courier New", Courier, monospace;
+
+}
+#kmeda{
+	background-color: #AFDDE9;
+	color: #247184;
+	padding: 16px;
+	font-size: 20px;
+	border: none;
+	cursor: pointer;
+	font-family:"Courier New", Courier, monospace;
+
+
+}
+
+#kka{
+	background-color: #AFDDE9;
+	color: #247184;
+	padding: 16px;
+	font-size: 20px;
+	border: none;
+	cursor: pointer;
+	font-family:"Courier New", Courier, monospace;
+
+
+}
+
+.jumbotron {
+  background-image: url("fejlec.png");
+  background-size: repeat;
+  background-color: #AFDDE9;
+}
+
+
+button{
+	width:100%;
+	background-color:##AFDDE9;
+}
+
+textarea {
+  color: #247184;
+    }
